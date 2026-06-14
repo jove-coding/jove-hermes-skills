@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jove-hermes-skills — Hermes Agent 技能集</title>
+    <meta name="description" content="jove-hermes-skills: 一个精心打磨的 Hermes Agent 技能仓库，社区驱动，跨模型验证交付。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a28;
+            --border: #2a2a3e;
+            --text: #e4e4ed;
+            --text-secondary: #9494a8;
+            --accent: #a78bfa;
+            --accent2: #6ee7b7;
+            --accent3: #f472b6;
+            --gradient: linear-gradient(135deg, #a78bfa, #6ee7b7);
+            --radius: 16px;
+            --radius-sm: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .bg-grid {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 60px 60px; opacity: 0.3;
+        }
+        .bg-glow {
+            position: fixed; top: -40vh; left: -20vw; width: 80vw; height: 80vh;
+            background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 70%);
+            pointer-events: none; z-index: 0;
+        }
+
+        .container {
+            position: relative; z-index: 1;
+            max-width: 960px; margin: 0 auto; padding: 0 24px;
+        }
+
+        /* ── Nav ── */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+            backdrop-filter: blur(12px);
+            background: rgba(10,10,15,0.8);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 960px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 56px;
+        }
+        .nav-brand {
+            font-weight: 700; font-size: 15px;
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 13px; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-back a {
+            color: var(--text-secondary); text-decoration: none; font-size: 13px;
+            display: flex; align-items: center; gap: 4px;
+            transition: color 0.2s;
+        }
+        .nav-back a:hover { color: var(--accent); }
+
+        /* ── Hero ── */
+        .hero {
+            padding: 120px 0 64px; text-align: center;
+        }
+        .hero-icon { font-size: 48px; margin-bottom: 16px; }
+        .hero h1 {
+            font-size: 42px; font-weight: 700;
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .hero-sub {
+            font-size: 16px; color: var(--text-secondary); margin-top: 12px; max-width: 500px; margin-left: auto; margin-right: auto;
+        }
+        .hero-badges {
+            display: flex; justify-content: center; gap: 10px; margin-top: 24px; flex-wrap: wrap;
+        }
+        .hero-badge {
+            padding: 4px 14px; border-radius: 100px; font-size: 12px; font-weight: 500;
+            background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); color: var(--accent);
+        }
+        .hero-badge.green { background: rgba(110,231,183,0.1); border-color: rgba(110,231,183,0.2); color: var(--accent2); }
+        .hero-badge.pink { background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.2); color: var(--accent3); }
+
+        .install-box {
+            max-width: 680px; margin: 32px auto 0;
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+            text-align: left;
+        }
+        .install-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px; border-bottom: 1px solid var(--border);
+            font-size: 12px; color: var(--text-secondary); font-weight: 500;
+        }
+        .install-body {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+        .install-body .comment { color: #6b7280; }
+        .install-body .cmd { color: var(--accent2); }
+        .install-body .string { color: var(--accent3); }
+
+        /* ── Section ── */
+        .section { padding: 64px 0; }
+        .section-title {
+            font-size: 24px; font-weight: 600; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-desc { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; max-width: 600px; }
+
+        /* ── Skill Cards ── */
+        .skill-list { display: flex; flex-direction: column; gap: 16px; }
+        .skill-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 24px 28px; text-decoration: none; color: inherit;
+            transition: border-color 0.2s;
+        }
+        .skill-card:hover { border-color: var(--accent); }
+        .skill-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+        .skill-card h3 { font-size: 16px; font-weight: 600; }
+        .skill-card .version {
+            font-size: 12px; color: var(--text-secondary);
+            background: var(--surface2); padding: 2px 10px; border-radius: 100px; white-space: nowrap;
+        }
+        .skill-card p { font-size: 14px; color: var(--text-secondary); margin-top: 6px; line-height: 1.6; }
+        .skill-tags { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .skill-tag {
+            font-size: 12px; padding: 2px 10px; border-radius: 100px;
+            background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.15); color: var(--accent);
+        }
+        .skill-tag.green { background: rgba(110,231,183,0.08); border-color: rgba(110,231,183,0.15); color: var(--accent2); }
+
+        .skill-detail {
+            margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+        }
+        .skill-detail summary {
+            font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer;
+        }
+        .skill-detail summary:hover { color: var(--text); }
+        .skill-detail-content {
+            margin-top: 12px; display: flex; flex-direction: column; gap: 10px;
+        }
+        .detail-row {
+            display: flex; gap: 12px; font-size: 13px;
+        }
+        .detail-label {
+            min-width: 90px; color: var(--text-secondary); flex-shrink: 0;
+        }
+        .detail-value { color: var(--text); }
+        .detail-table {
+            width: 100%; border-collapse: collapse; font-size: 13px;
+        }
+        .detail-table th {
+            text-align: left; padding: 6px 10px; color: var(--text-secondary); font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+        .detail-table td {
+            padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text);
+        }
+        .detail-table tr:last-child td { border-bottom: none; }
+
+        /* ── Quality ── */
+        .quality-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .quality-card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+            padding: 20px;
+        }
+        .quality-card .num {
+            font-size: 28px; font-weight: 700;
+            background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .quality-card .label {
+            font-size: 13px; color: var(--text-secondary); margin-top: 4px;
+        }
+        .quality-card .sub {
+            font-size: 12px; color: var(--text-secondary); opacity: 0.6; margin-top: 8px;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            border-top: 1px solid var(--border); padding: 32px 0 48px; text-align: center;
+        }
+        .footer p { font-size: 13px; color: var(--text-secondary); opacity: 0.6; }
+        .footer a { color: var(--accent); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .quality-grid { grid-template-columns: 1fr; }
+            .skill-card-top { flex-direction: column; }
+            .section { padding: 40px 0; }
+            .hero { padding: 100px 0 40px; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .hero h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ─── Nav ─── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <div class="nav-back">
+            <a href="https://jove-rina.github.io">← Jove Rina</a>
+        </div>
+        <div class="nav-brand">jove-hermes-skills</div>
+        <div class="nav-links">
+            <a href="#skills">技能</a>
+            <a href="#quality">质量</a>
+            <a href="https://github.com/jove-rina/jove-hermes-skills">GitHub</a>
+        </div>
+    </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-icon">🧩</div>
+        <h1>jove-hermes-skills</h1>
+        <p class="hero-sub">一个精心打磨的 Hermes Agent 技能仓库 —— 社区驱动，跨模型验证，开箱即用。</p>
+        <div class="hero-badges">
+            <span class="hero-badge">🔧 Hermes Agent</span>
+            <span class="hero-badge green">📦 Tap 格式</span>
+            <span class="hero-badge pink">✓ 跨模型审查</span>
+        </div>
+        <div class="install-box">
+            <div class="install-header">⚡ 快速安装</div>
+            <div class="install-body">
+                <span class="comment"># 添加 tap 源</span><br />
+                hermes skills tap add <span class="cmd">jove-rina/jove-hermes-skills</span><br />
+                <br />
+                <span class="comment"># 安装技能</span><br />
+                hermes skills install <span class="string">jove-rina/jove-hermes-skills/hermes-windows-migration</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Skills ─── -->
+<section class="section" id="skills">
+    <div class="container">
+        <h2 class="section-title">📦 技能列表</h2>
+        <p class="section-desc">每个技能都经过多轮跨模型审查，确保生产级质量。</p>
+        <div class="skill-list">
+
+            <!-- hermes-windows-migration -->
+            <div class="skill-card">
+                <div class="skill-card-top">
+                    <div>
+                        <h3>hermes-windows-migration</h3>
+                        <p>将 Hermes Agent 数据从 C 盘迁移到自定义目录，解决磁盘空间不足问题。</p>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Windows</span>
+                            <span class="skill-tag green">PowerShell</span>
+                            <span class="skill-tag">数据迁移</span>
+                        </div>
+                    </div>
+                    <span class="version">v1.0.1</span>
+                </div>
+                <details class="skill-detail">
+                    <summary>查看详情</summary>
+                    <div class="skill-detail-content">
+                        <div class="detail-row">
+                            <span class="detail-label">中文触发</span>
+                            <span class="detail-value">"C 盘满了，怎么把 Hermes 数据移走？"</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">English Trigger</span>
+                            <span class="detail-value">"My C: drive is full, I need to relocate Hermes data"</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">提供方案</span>
+                            <span class="detail-value">自动脚本 · 手动操作 · 交给 Agent</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">核心特性</span>
+                            <span class="detail-value">零删除 · robocopy 增量复制 · 环境变量自动配置</span>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <!-- More skills coming soon placeholder -->
+            <div class="skill-card" style="opacity: 0.5; cursor: default;">
+                <div class="skill-card-top">
+                    <div>
+                        <h3>更多技能开发中…</h3>
+                        <p>更多实用技能正在设计和审查中，敬请期待。</p>
+                    </div>
+                    <span class="version">Coming Soon</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── Quality ─── -->
+<section class="section" id="quality">
+    <div class="container">
+        <h2 class="section-title">✅ 验证质量</h2>
+        <p class="section-desc">我们坚持跨模型、多轮次的审查流程，确保每个技能都值得信赖。</p>
+        <div class="quality-grid">
+            <div class="quality-card">
+                <div class="num">3</div>
+                <div class="label">审查模型</div>
+                <div class="sub">deepseek-v4-flash · DeepSeek Pro · kimi-k2.7-code</div>
+            </div>
+            <div class="quality-card">
+                <div class="num">8</div>
+                <div class="label">审查轮次</div>
+                <div class="sub">从文档一致性到边界条件全面覆盖</div>
+            </div>
+            <div class="quality-card">
+                <div class="num">34</div>
+                <div class="label">发现并修复的问题</div>
+                <div class="sub">死代码 · 模糊正则 · 运行时错误 · 版本同步</div>
+            </div>
+            <div class="quality-card">
+                <div class="num">CC0</div>
+                <div class="label">许可证</div>
+                <div class="sub">公有领域，随意使用、修改、分享</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer class="footer">
+    <div class="container">
+        <p>
+            <a href="https://github.com/jove-rina/jove-hermes-skills">GitHub 仓库</a>
+            &nbsp;·&nbsp;
+            <a href="https://jove-rina.github.io">Jove Rina</a>
+            &nbsp;·&nbsp; CC0 公有领域
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

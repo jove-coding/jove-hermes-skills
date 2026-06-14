@@ -27,13 +27,13 @@
 
 ```bash
 # 1. 添加技能源 / Add the tap
-hermes skills tap add jove-coding/jove-hermes-skills
+hermes skills tap add jove-rina/jove-hermes-skills
 
 # 2. 搜索技能 / Search for a skill
 hermes skills search windows-migration
 
 # 3. 安装技能 / Install the skill
-hermes skills install jove-coding/jove-hermes-skills/hermes-windows-migration
+hermes skills install jove-rina/jove-hermes-skills/hermes-windows-migration
 
 # 4. 在对话中加载 / Load in chat
 /skill hermes-windows-migration
@@ -206,6 +206,6 @@ All skills in this repository are released under [CC0 1.0 Universal](https://cre
 ---
 
 <sub>
-🇨🇳 由 [jove](https://github.com/jove-coding) 维护 · [Hermes Agent](https://hermes-agent.nousresearch.com/) 技能系统
-🇬🇧 Maintained by [jove](https://github.com/jove-coding) · Powered by [Hermes Agent](https://hermes-agent.nousresearch.com/)
+🇨🇳 由 [jove-rina](https://github.com/jove-rina) 维护 · [Hermes Agent](https://hermes-agent.nousresearch.com/) 技能系统
+🇬🇧 Maintained by [jove-rina](https://github.com/jove-rina) · Powered by [Hermes Agent](https://hermes-agent.nousresearch.com/)
 </sub>
