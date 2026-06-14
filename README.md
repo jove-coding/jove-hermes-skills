@@ -39,7 +39,7 @@ hermes skills install jove-coding/jove-hermes-skills/hermes-windows-migration
 /skill hermes-windows-migration
 ```
 
-安装后，当你在对话中提到相关场景时，Hermes 会自动加载对应技能。
+安装后，当你在对话中提到相关场景时，Hermes 会自动加载对应技能~
 After installation, Hermes will automatically load the relevant skill when you mention related scenarios.
 
 ---
