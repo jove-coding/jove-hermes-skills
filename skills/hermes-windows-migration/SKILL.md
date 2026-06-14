@@ -148,10 +148,7 @@ If the user says "you handle it" and they're at a Windows machine:
 |------|---------|----------|
 | migrate-hermes.ps1 | Fully automated migration script (interactive) | scripts/migrate-hermes.ps1 |
 | Windows-Migration-Guide.md | Detailed step-by-step reference document | references/Windows-Migration-Guide.md |
-| review-checklist.md | Review checklist for future migrations / script audits | references/review-checklist.md |
-| Release-Notes-v1.0.1.md | Release notes and changelog | references/Release-Notes-v1.0.1.md |
-| Review-Report.md | Comprehensive cross-model review report | references/Review-Report.md |
-| cross-model-review-notes.md | Methodology + recurring pitfalls learned during cross-model review | references/cross-model-review-notes.md |
+
 
 ## FAQ
 
@@ -164,38 +161,4 @@ A: No. Setting a user-level HERMES_HOME variable does not require admin privileg
 ### Q: Will old data be overwritten?
 A: No. Hermes reads and writes from the new directory. Old data stays untouched.
 
-## Verification History
 
-This skill and its companion files have been reviewed via cross-model verification (deepseek-v4-flash → DeepSeek Pro). Issues found and fixed during review:
-
-| Round | Model | Finding | Fix |
-|-------|-------|---------|-----|
-| 1 | flash | Option B placeholders not clearly marked (`target-directory` vs `<target-directory>`) | Added `<>` to all placeholders |
-| 1 | flash | Missing PowerShell `-ExecutionPolicy Bypass` guidance | Added Bypass to all `.ps1` examples |
-| 1 | flash | Option C: `$env:LOCALAPPDATA` expanded by bash in double-quoted string (not passed to PowerShell) | Switched to single quotes in bash so the literal string reaches PowerShell |
-| 2 | flash | Option A: second example lacked `-ExecutionPolicy Bypass` | Added Bypass to second example |
-| 3 | pro | **`Write-Fail` function undefined** (line 195 of `migrate-hermes.ps1`) — runtime crash if robocopy fails | Defined `Write-Fail` function |
-| 3 | pro | Option B robocopy missing `/NP /NDL` flags (inconsistent with script and doc) | Added `/NP /NDL` to Option B |
-| 5 | kimi-k2.7-code | `Write-Error` shadowed built-in PowerShell cmdlet | Renamed to `Write-Fail` |
-| 5 | kimi-k2.7-code | Repeated runs used wrong source directory when `HERMES_HOME` was already set | Detect existing `HERMES_HOME` and offer to migrate from it |
-| 5 | kimi-k2.7-code | Target directory non-empty check missing | Added non-empty warning + confirmation |
-| 5 | kimi-k2.7-code | Disk-space check used `Get-PSDrive`, unreliable for some drives | Switched to `Get-CimInstance Win32_LogicalDisk` |
-| 5 | kimi-k2.7-code | Env-var set failure did not stop script | Added `exit 1` in catch block |
-| 5 | kimi-k2.7-code | PID hint only showed old path | Show both old and new `gateway_state.json` paths |
-| 5 | kimi-k2.7-code | Guide.md quick-reference robocopy lacked `/NP /NDL` | Added flags |
-| 5 | kimi-k2.7-code | Guide.md said WSL2 applied; SKILL.md said it did not | Unified to "does not apply to WSL2" |
-| 6 | kimi-k2.7-code | `Clear-Host` cleared user's terminal history | Removed `Clear-Host`; use plain banner with leading blank line |
-| 6 | kimi-k2.7-code | `Get-ChildItem -Force` on target could hang on huge dirs | Piped to `Select-Object -First 1` |
-| 6 | kimi-k2.7-code | SKILL.md program-files warning omitted `node/` | Added `node/` to the do-not-move list |
-| 6 | kimi-k2.7-code | Git-Bash examples mixed backslash Windows paths with forward slashes | Converted `du` example and added Pitfall 7 with `${VAR//\\//}` |
-| 7 | deepseek-v4-flash | After restart, `HERMES_HOME` can be set to `profiles/<name>` instead of the migration root | Added Pitfall 8 and root-directory checks to warnings + checklists |
-| 8 | kimi-k2.7-code | `migrate-hermes.ps1` still at v1.0 while docs were v1.0.1 | Bumped script version + banner to v1.0.1 |
-| 8 | kimi-k2.7-code | Script did not validate that target is the migration root | Added regex check rejecting `profiles/<name>` targets |
-| 8 | kimi-k2.7-code | End banner still used Unicode box-drawing characters | Converted to ASCII for consistency and encoding safety |
-| 8 | kimi-k2.7-code | Round 6 had added a duplicate source≠target check before `$targetDir` was initialized | Removed; existing source≠target check after target input already covers the `HERMES_HOME` branch |
-| 8 | kimi-k2.7-code | Bash guidance in script output mixed backslashes with forward slashes | Added `$sourcePathBash`/`$targetDirBash` variants for user-facing Git-Bash commands |
-| 8 | kimi-k2.7-code | `$HERMES_HOME/profiles/...` Git-Bash examples could fail with Windows backslash paths | Converted all Git-Bash file-access examples to `${HERMES_HOME//\\//}/profiles/...` |
-| 8 | kimi-k2.7-code | Guide.md `du` and `cd` examples still mixed backslashes | Converted all `$LOCALAPPDATA/hermes` examples to `${LOCALAPPDATA//\\//}/hermes` |
-| 8 | kimi-k2.7-code | SKILL.md Option C used `<target-dir>` while rest of doc used `<target-directory>` | Unified to `<target-directory>` |
-
-All three deliverables are now consistent and verified.
