@@ -185,16 +185,19 @@ This skill went through **3 models × 8 review rounds**, finding and fixing **34
 
 ### hermes-wechat-integration
 
-此技能经过 **4 个模型 × 4 轮审查**，从 v1.8.0（997行/12K tokens）优化到 v1.9.0（416行/4.3K tokens），覆盖 10 类问题。
-This skill went through **4 models × 4 review rounds**, optimized from v1.8.0 (997 lines/12K tokens) to v1.9.0 (416 lines/4.3K tokens), covering 10 issue categories.
+此技能从原始社区版本（v1.8.0, 997行/12K tokens）经过 **4 个模型 × 7 轮审查** 优化到 v1.9.0（416行/4.3K tokens）。
+This skill evolved from its original community version (v1.8.0, 997 lines/12K tokens) through **4 models × 7 review rounds** to v1.9.0 (416 lines/4.3K tokens).
 
-| 轮次 / Round | 模型 / Model | 发现数 / Issues | 重点 / Focus |
-|---|---|---|---|
-| ① 初评 | DeepSeek V4 Flash | ~383 冗余行 | 信息架构/Token 优化 / Info architecture & token optimization |
-| ② 终审 | Agnes-2.0-Flash | 2 个 P1-P2 微调 | 跨模型确认 / Cross-model verification |
-| ③ 冷启动 | DeepSeek V4 Pro | 8 项（P0×1, P1×4, P2×3） | 独立第三方视角 / Independent fresh-pair-of-eyes review |
-| ④ 最终 | Rina + Jove + Hebe | 1 个漏网引用 | 三位成员终审 / Family final review |
-| **总计 / Total** | **4 个模型 / 4 models** | **~400 项改进** | **全部修复 / All fixed ✅** |
+| 轮次 / Round | 模型 / Model | 评审者 / Reviewer | 发现数 / Findings | 重点 / Focus |
+|---|---|---|---|---|
+| ① 初评·混合 | DeepSeek V4 Flash | Rina 🔍 | ~383 冗余行 | 首次评审假设混合受众（人类+AI），发现大量人类叙事冗余 / First review assumed mixed audience (human+AI), found heavy narrative bloat |
+| ② 初评·混合 | DeepSeek V4 Flash | Jove ⚡ | ~12K tokens 量化 | Token 消耗分析，建议 FAQ/Placeholder 懒加载 / Token analysis, proposed lazy-loading FAQ/Placeholders |
+| ③ 复评·纯 AI | DeepSeek V4 Flash | Rina 🔍 | 方向反转 🔄 | 主人纠正为纯 AI Agent 受众后重新评审，所有结论 180° 反转 / User corrected to AI-only audience, all recommendations reversed |
+| ④ 复评·纯 AI | DeepSeek V4 Flash | Jove ⚡ | 方向反转 🔄 | 同上，保留 AI 专有内容（QR 协议、输出解析表），删除人类叙事 / Same: keep AI protocols, remove human narrative |
+| ⑤ 终审 | Agnes-2.0-Flash | Hebe 🎀 | 2 个 P1-P2 微调 | 跨模型确认优化结果，修复 2 处细节 / Cross-model verification, fixed 2 edge cases |
+| ⑥ 冷启动 | DeepSeek V4 Pro | 独立第三方 | 8 项（P0×1, P1×4, P2×3） | 全新视角发现交叉引用断裂、指令模糊等问题 / Fresh perspective caught broken references, ambiguous instructions |
+| ⑦ 最终 | Rina + Jove + Hebe | 全家 | 2 个遗留项 | 修复 §3.2 命令明确性 + FAQ Q8 引用修复 / Fixed §3.2 command clarity + FAQ Q8 reference |
+| **总计 / Total** | **4 个模型 / 4 models** | **7 轮 / 7 rounds** | **~400 项改进** | **全部修复 / All fixed ✅** |
 
 ---
 
