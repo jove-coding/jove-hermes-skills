@@ -17,6 +17,7 @@
 - [仓库结构 / Repository Structure](#-仓库结构--repository-structure)
 - [技能详情 / Skill Details](#-技能详情--skill-details)
   - [hermes-windows-migration](#hermes-windows-migration)
+  - [hermes-wechat-integration](#hermes-wechat-integration)
 - [验证质量 / Quality Assurance](#-验证质量--quality-assurance)
 - [常见问题 / FAQ](#-常见问题--faq)
 - [贡献指南 / Contributing](#-贡献指南--contributing)
@@ -49,6 +50,7 @@ After installation, Hermes will automatically load the relevant skill when you m
 | 技能 / Skill | 版本 / Version | 描述 / Description | 平台 / Platform |
 |---|---|---|---|
 | [hermes-windows-migration](skills/hermes-windows-migration/) | v1.0.1 | 迁移 Hermes 数据到自定义目录 / Migrate Hermes data to a custom directory | Windows |
+| [hermes-wechat-integration](skills/hermes-wechat-integration/) | v1.9.0 | 微信接入 Hermes Agent / WeChat integration for Hermes Agent | Cross-platform |
 
 > 更多技能陆续添加中 / More skills coming soon...
 
@@ -69,7 +71,13 @@ jove-hermes-skills/
 │           ├── Release-Notes-v1.0.1.md         # 发布说明 / Release notes
 │           ├── Review-Report.md                # 完整审查报告 / Full review report (34 issues)
 │           └── cross-model-review-notes.md     # 审查方法论 / Review methodology & pitfalls
-└── README.md                        # 本文件 / This file
+│   └── hermes-wechat-integration/          # 微信集成技能 / WeChat integration skill
+│       ├── SKILL.md                        # 技能定义（加载入口）/ Skill definition (entry point)
+│       └── references/
+│           ├── faq.md                      # 常见故障排查 / FAQ for troubleshooting
+│           ├── placeholders.md             # 凭据提取占位符表 / Credential extraction table
+│           └── official-docs.md            # 官方文档链接 / Official docs links
+└── README.md                               # 本文件 / This file
 ```
 
 ---
@@ -117,9 +125,46 @@ Migrate Hermes Agent data from `C:\Users\<user>\AppData\Local\hermes` to a custo
 - ✅ **验证清单 / Verification checklist** — 迁移完成后输出逐项检查清单 / Post-migration verification checklist
 - ✅ **WSL2/Linux/macOS 不适用** — 仅 Windows 原生安装 / Windows native install only
 
+### hermes-wechat-integration
+
+**微信集成 / WeChat (Weixin) Integration**
+
+将 Hermes Agent 接入个人微信，实现消息收发、多 Profile 隔离和故障诊断。
+Connect Hermes Agent to personal WeChat — message send/receive, multi-profile isolation, and troubleshooting.
+
+#### 🇨🇳 适用场景 / 🇬🇧 When to Use
+
+| 中文触发词 | English Triggers |
+|---|---|
+| "我想把 Hermes 接到微信上" | "I want to connect Hermes to WeChat" |
+| "如何配置微信 bot？" | "How to set up a WeChat bot?" |
+| "微信消息收不到 / 不回复" | "WeChat messages not received / no reply" |
+| "多账号微信怎么隔离？" | "How to isolate multiple WeChat accounts?" |
+
+#### 文件说明 / File Overview
+
+| 文件 / File | 🇨🇳 用途 | 🇬🇧 Purpose |
+|---|---|---|
+| `SKILL.md` | 技能定义 — 安装、配置、授权、验证、排错 | Skill definition — install, config, auth, verify, troubleshoot |
+| `references/faq.md` | 10 类常见故障排查 | 10 common troubleshooting scenarios |
+| `references/placeholders.md` | 凭据提取占位符表（懒加载） | Credential extraction placeholder table (lazy-loaded) |
+| `references/official-docs.md` | 官方文档链接和 iLink API 备注 | Official docs links and iLink API notes |
+
+#### 核心特性 / Key Features
+
+- ✅ **QR 码登录 / QR code auth** — 官方 iLink Bot API 接入，无需逆向工程 / Official iLink Bot API, no reverse engineering
+- ✅ **AI 专有协议 / AI-native protocols** — QR 替代协议、验证协议、context_token 机制，AI 知道自身边界 / QR proxy, verification protocol, context_token awareness
+- ✅ **双层门控授权 / Two-gate auth** — Policy 门 + Routing 门，诊断矩阵精确定位问题 / Policy gate + Routing gate with diagnosis matrix
+- ✅ **多 Profile 隔离 / Multi-profile isolation** — 每个 Profile 独立微信账号，互不干扰 / Each profile with its own WeChat account
+- ✅ **Token 优化 / Token-efficient** — 核心 4.3K tokens，FAQ 懒加载 / Core 4.3K tokens, FAQ lazy-loaded
+- ✅ **跨模型验证 / Cross-model reviewed** — 4 轮 × 3 个模型独立评审 / 4 rounds × 3 models independent review
+- ✅ **Cross-platform** — Linux/macOS/Windows Git Bash
+
 ---
 
 ## ✅ 验证质量 / Quality Assurance
+
+### hermes-windows-migration
 
 此技能经过 **3 个模型 × 8 轮审查**，共发现并修复 **34 条问题**，确保交付质量。
 This skill went through **3 models × 8 review rounds**, finding and fixing **34 issues** to ensure production quality.
@@ -137,6 +182,19 @@ This skill went through **3 models × 8 review rounds**, finding and fixing **34
 | **总计 / Total** | **3 个模型 / 3 models** | **34** | **全部修复 / All fixed ✅** |
 
 完整审查报告参见 / Full review report: [`skills/hermes-windows-migration/references/Review-Report.md`](skills/hermes-windows-migration/references/Review-Report.md)
+
+### hermes-wechat-integration
+
+此技能经过 **4 个模型 × 4 轮审查**，从 v1.8.0（997行/12K tokens）优化到 v1.9.0（416行/4.3K tokens），覆盖 10 类问题。
+This skill went through **4 models × 4 review rounds**, optimized from v1.8.0 (997 lines/12K tokens) to v1.9.0 (416 lines/4.3K tokens), covering 10 issue categories.
+
+| 轮次 / Round | 模型 / Model | 发现数 / Issues | 重点 / Focus |
+|---|---|---|---|
+| ① 初评 | DeepSeek V4 Flash | ~383 冗余行 | 信息架构/Token 优化 / Info architecture & token optimization |
+| ② 终审 | Agnes-2.0-Flash | 2 个 P1-P2 微调 | 跨模型确认 / Cross-model verification |
+| ③ 冷启动 | DeepSeek V4 Pro | 8 项（P0×1, P1×4, P2×3） | 独立第三方视角 / Independent fresh-pair-of-eyes review |
+| ④ 最终 | Rina + Jove + Hebe | 1 个漏网引用 | 三位成员终审 / Family final review |
+| **总计 / Total** | **4 个模型 / 4 models** | **~400 项改进** | **全部修复 / All fixed ✅** |
 
 ---
 
