@@ -185,8 +185,8 @@ This skill went through **3 models × 8 review rounds**, finding and fixing **34
 
 ### hermes-wechat-integration
 
-此技能从 **v1.0** 原始版本经过 **4 个模型 × 7 轮审查** 迭代到 v1.9.0（416行/4.3K tokens），当前可追溯的评审轮次覆盖 v1.8.0→v1.9.0 全程。  
-This skill evolved from **v1.0** through **4 models × 7 review rounds** to v1.9.0 (416 lines/4.3K tokens). Traceable reviews cover the v1.8.0 → v1.9.0 optimization phase.
+此技能开发历程：**v1.0–v1.7**（原名 `wechat-integration`，社区早期版本，评审记录未保留）→ **v1.8.0**（997行/12K tokens，社区版）→ **v1.9.0**（416行/4.3K tokens，当前版）。有据可查的评审轮次覆盖 v1.8.0→v1.9.0 优化阶段：  
+Development history: **v1.0–v1.7** (original name `wechat-integration`, early community versions, review records not preserved) → **v1.8.0** (997 lines/12K tokens, community version) → **v1.9.0** (416 lines/4.3K tokens, current). Traceable reviews cover the v1.8.0 → v1.9.0 optimization phase:
 
 | 轮次 / Round | 模型 / Model | 评审者 / Reviewer | 发现数 / Findings | 重点 / Focus |
 |---|---|---|---|---|
